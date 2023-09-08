@@ -29,9 +29,16 @@ ALLOWED_HOSTS = []
 
 # White listing the localhost:3000 port
 # for React
-CORS_ORIGIN_WHITELIST = (
+# CORS_ORIGIN_WHITELIST = (
+#     'http://localhost:3000',
+#     'http://127.0.0.1:3000',    #Added this
+# )
+CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-)
+    'http://127.0.0.1:3000',
+]
+
+CORS_ALLOW_CREDENTIALS = True   #Added this
 
 # Application definition
 
@@ -42,9 +49,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',       # Added this
+    'corsheaders',          # Added this
+    'users.apps.UsersConfig',   #Added this
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',        #Added this
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -83,6 +94,19 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
+}
+
+
+# User Model
+AUTH_USER_MODEL = 'users.AppUser'       #Added this
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES' : (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES' : (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
 }
 
 
