@@ -1,6 +1,7 @@
 from django.forms import ValidationError
 from rest_framework import serializers
 from django.contrib.auth import get_user_model,authenticate
+from .models import Watchlist
 
 UserModel = get_user_model()
 
@@ -30,3 +31,19 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         fields = ('email','username')
+
+class WatchlistSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Watchlist
+        fields = '__all__'
+    
+    def create(self, data):
+        watchlist = Watchlist.objects.create(user=data["user"], ticker=data["ticker"])
+        return watchlist
+    
+    def delete(data):
+        watchlist = Watchlist.objects.get(user=data["user"], ticker=data["ticker"]).delete()
+        return watchlist
+    
+    def get():
+        return Watchlist.objects.all()

@@ -7,6 +7,8 @@ import Login from './containers/Login/Login';
 import Prediction from './containers/Prediction/Prediction';
 import News from './containers/News/News';
 
+
+
 function App() {
   return (
     <Router>
