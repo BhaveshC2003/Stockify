@@ -8,6 +8,8 @@ import Prediction from './containers/Prediction/Prediction';
 import News from './containers/News/News';
 import Watchlist from './containers/Watchlist/watchlist';
 
+
+
 function App() {
   return (
     <Router>

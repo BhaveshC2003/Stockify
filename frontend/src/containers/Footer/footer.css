@@ -1,3 +1,7 @@
+.stockify__footer{
+    position: sticky;
+}
+
 .footer{
     background:#000;
     padding:30px 0px;

@@ -29,7 +29,7 @@ class UserManager(BaseUserManager):
         user.save()
         return user
 
-class AppUser(AbstractBaseUser,PermissionsMixin):
+class AppUser(AbstractBaseUser, PermissionsMixin):
     user_id = models.AutoField(primary_key=True)
     email = models.EmailField(max_length=50,unique=True)
     username = models.CharField(max_length=50)
@@ -39,3 +39,10 @@ class AppUser(AbstractBaseUser,PermissionsMixin):
     def __str__(self):
         return self.username
     
+
+class Watchlist(models.Model):
+    user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+    ticker = models.CharField(max_length=25)
+    
+    def __str__(self):
+        return self.user.username
