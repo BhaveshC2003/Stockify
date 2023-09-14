@@ -49,8 +49,10 @@ class UserLogin(APIView):
 
 
 class UserLogout(APIView):
-    permission_classes = (permissions.AllowAny,)        
-    authentication_classes = ()                         
+    # permission_classes = (permissions.AllowAny,)        
+    # authentication_classes = ()
+    permission_classes = (permissions.IsAuthenticated,) 
+    authentication_classes = (SessionAuthentication,)                         
     def post(self,request):
         response = Response(status=status.HTTP_200_OK)
         response.delete_cookie("access_token")
