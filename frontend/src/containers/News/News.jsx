@@ -46,15 +46,15 @@ const News = () => {
           onChange={handleChange}
           aria-label="secondary tabs example"
         >
-          <Tab value="news" label="News" sx={{color:"white"}}/>
+          <Tab value="news" label="Articles" sx={{color:"white"}}/>
           <Tab value="videos" label="Videos" sx={{color:"white"}} />
         </Tabs>
       </Box>
         <h1>Latest Market {value === "news" ? "News" : "Videos"}</h1>
         <div className='stockify__news-container'>
             {
-              value === "news" ? news && news.map((article,i)=> i<9 && <NewsCard title={article.title} url={article.url} image={article.banner_image} />) :
-                                videos && videos.map((video,i)=>i<9 && <NewsCard title={video.title} image={video.thumbnail[0].url} url={`https://www.youtube.com/watch?v=${video.videoId}`} />)
+              value === "news" ? news && news.map((article,i)=> i<9 && <NewsCard title={article.title} url={article.url} image={article.banner_image} more={"Read More"} />) :
+                                videos && videos.map((video,i)=>i<9 && <NewsCard title={video.title} image={video.thumbnail[0].url} url={`https://www.youtube.com/watch?v=${video.videoId}`} more={"Watch Video"} />)
             }      
         </div>
     </div>

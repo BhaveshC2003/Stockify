@@ -8,10 +8,10 @@
 }
 
 .stockify__newscard-img{
-    width: 100%;
-    height: 75%;
-    object-fit: cover;
+    object-fit:scale-down;
     display: flex;
+    width: 348px;
+    height: 195px;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;

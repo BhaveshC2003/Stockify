@@ -11,6 +11,7 @@ from .models import AppUser
 import jwt
 from stockify import settings
 from .models import Watchlist
+import requests
 # Create your views here.
 
 
@@ -102,3 +103,20 @@ class WatchlistView(APIView):
         serializer = WatchlistSerializer(queryset, many=True)
         return Response({"success":True, "data":serializer.data})
         
+class NewsView(APIView):
+    permission_classes = (permissions.AllowAny,) 
+    def get(self, request):
+        sessions = requests.Session()
+        headers = {
+            "X-RapidAPI-Host": "yt-api.p.rapidapi.com",
+            "X-RapidAPI-Key": "4adc2061ddmshd49b7c703e14a69p15c9b1jsnfe9ddb7823de"
+            }
+        params = {
+            "query": '["finance","stock market","economy"]',
+            "lang": 'en',
+            "type": 'video',
+            "upload_date": 'month'
+        }
+        news_response = sessions.get("https://www.alphavantage.co/query?function=NEWS_SENTIMENT&topics=financial_markets&apikey=IJ9GT8ELNE4GDPON")
+        videos_response = sessions.get("https://yt-api.p.rapidapi.com/search", headers=headers,params=params)
+        return Response({"success":True, "videos":videos_response,"news":news_response})
