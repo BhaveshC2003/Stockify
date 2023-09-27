@@ -38,7 +38,7 @@ const DataTable = ({headings,data=[]}) => {
   return (
     <>
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table sx={{ minWidth: 700 ,borderRadius : '1%'}} aria-label="customized table">
         <TableHead >
           <TableRow>
               {
