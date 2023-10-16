@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useContext,useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,13 +13,15 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {Link} from "react-router-dom"
+import { UserContext } from '../../context/userContext';
 
 const pages = ["market trends","compare","predictions","news","watchlist"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const user = useContext(UserContext)
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -124,8 +126,13 @@ function Navbar() {
             ))}
           </Box>
           <Box sx={{ flexGrow: 1, display:"flex",justifyContent:"center" }}>
-            <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}><Link to={"/login"}>Sign In</Link></Button>
-            <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}><Link>Register</Link></Button>
+            {
+              user ? <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}>{user.username}</Button>:
+              <>
+                <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}><Link to={"/login"}>Sign In</Link></Button>
+                <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}><Link>Register</Link></Button>
+              </>
+            }
           </Box>
           
         </Toolbar>

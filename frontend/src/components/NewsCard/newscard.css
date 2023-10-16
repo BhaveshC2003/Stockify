@@ -5,6 +5,7 @@
     justify-content: center;
     align-items: center;
     margin: 1.1em auto;
+    height: fit-content;
 }
 
 .stockify__newscard-img{

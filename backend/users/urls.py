@@ -8,5 +8,6 @@ urlpatterns = [
     path('user', views.UserView.as_view(), name='user'),
     path('watchlist', views.WatchlistView.as_view(), name='watchlist'),
     path('news', views.NewsView.as_view(), name='news'),
-    path('watchlist', views.WatchlistView.as_view(), name='watchlist')
+    path('watchlist', views.WatchlistView.as_view(), name='watchlist'),
+    path('sheet', views.GoogleSheet.as_view(), name="sheet")
 ]

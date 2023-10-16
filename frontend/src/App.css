@@ -6,7 +6,7 @@
     margin: 0;
     padding: 0;
     --background-clr: rgb(0, 0, 0);
-    --font-clr: white;
+    --font-clr: rgb(244, 239, 230);
 }
 
 a{
