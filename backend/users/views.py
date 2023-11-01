@@ -33,7 +33,22 @@ class UserRegister(APIView):
             user = serializer.create(clean_data)
             if user:
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST) 
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request):
+        data = requests.get("http://localhost:8081/customers").json()
+        customer_data = {
+             "email":data[0]["email"],
+             "username":data[0]["first_name"],
+             "password":"admin123"
+         }
+        clean_data = custom_validation(customer_data)
+        serializer = UserRegisterSerializer(data=clean_data)
+        if serializer.is_valid(raise_exception=True):
+            user = serializer.create(clean_data)
+            if user:
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserLogin(APIView):
@@ -180,7 +195,9 @@ class GoogleSheet(APIView):
         stocks = request.data["stocks"]
         stocks = [list(stock.values()) for stock in stocks]
         print(stocks)
-        flow = InstalledAppFlow.from_client_secrets_file('credentials.json', SCOPES)
+        CURR_DIR = os.path.dirname(os.path.realpath(__file__))
+        credential_file=str(CURR_DIR)+'/credentials.json'
+        flow = InstalledAppFlow.from_client_secrets_file(credential_file, SCOPES)
         creds = flow.run_local_server(port=5000)
         try:
             service = build('sheets', 'v4', credentials=creds)
