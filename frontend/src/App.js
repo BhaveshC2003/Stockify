@@ -34,6 +34,7 @@ function App() {
           <Route exact path='/predictions' element={<Prediction />}/>
           <Route exact path='/news' element={<News />}/>
           <Route exact path='/watchlist' element={<Watchlist />}/>
+          <Route exact path="/stock" />
       	</Routes>
       	<Footer />
     	</Router>
