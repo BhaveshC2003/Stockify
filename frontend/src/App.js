@@ -10,6 +10,7 @@ import Prediction from './containers/Prediction/Prediction';
 import News from './containers/News/News';
 import Watchlist from './containers/Watchlist/watchlist';
 import {UserContext} from "./context/userContext"
+import Stock from './containers/Stock/Stock';
 
 
 function App() {
@@ -34,7 +35,7 @@ function App() {
           <Route exact path='/predictions' element={<Prediction />}/>
           <Route exact path='/news' element={<News />}/>
           <Route exact path='/watchlist' element={<Watchlist />}/>
-          <Route exact path="/stock" />
+          <Route exact path="/stock" element={<Stock />}/>
       	</Routes>
       	<Footer />
     	</Router>

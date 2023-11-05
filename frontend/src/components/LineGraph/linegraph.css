@@ -1,5 +1,6 @@
 .stockify__linegraph{
-    width: 75vw;
-    height: 50vh;
-    color: var(--font-clr);
+    width: 100%;
+    height: 85%;
+    background-color: transparent;
+    border-radius: 10px;
 }

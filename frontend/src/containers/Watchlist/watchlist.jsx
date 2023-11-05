@@ -1,8 +1,6 @@
 import {useState} from 'react'
-import DataTable from '../../components/Table/Table'
 import './watchlist.css'
 import Backgroundimg from '../../components/BackgroundImg/Backgroundimg'
-import { TableContainer, Paper } from '@mui/material'
 import WatchlistCard from '../../components/WatchlistCard/WatchlistCard'
 import Button from '@mui/material/Button'
 import axios from "axios"
