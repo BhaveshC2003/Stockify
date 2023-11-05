@@ -16,11 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from users.models import AppUser, Watchlist
 
 #To edit Admin Page text
 admin.site.site_header = "Stockify Admin"
 admin.site.site_title = "Stockify Admin Portal"
 admin.site.index_title = "Welcome to Stockify's Portal"
+
+admin.site.register(AppUser)
+admin.site.register(Watchlist)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

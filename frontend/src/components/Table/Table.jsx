@@ -1,4 +1,5 @@
 import React from 'react'
+import "./table.css"
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -10,16 +11,17 @@ import Paper from '@mui/material/Paper';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.white,
-    color: theme.palette.common.black,
-    fontSize:"1.1vmax",
-    borderRight:"solid 2px black"
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+    fontSize:"1.3vmax",
+    borderRight:"solid 2px white",
+    borderBottom:"solid 2px white",
   },
   [`&.${tableCellClasses.body}`]: {
-    fontSize: 14,
-    backgroundColor:"white",
-    color:"black",
-    borderRight:"solid 2px black"
+    fontSize: 17,
+    backgroundColor:"black",
+    color:"white",
+    border:"solid 2px transparent"
   },
 }));
 
@@ -37,7 +39,7 @@ const createRow = (details)=>{
 const DataTable = ({headings,data=[]}) => {
   return (
     <>
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className='stockify__table'>
       <Table sx={{ minWidth: 700 ,borderRadius : '1%'}} aria-label="customized table">
         <TableHead >
           <TableRow>
