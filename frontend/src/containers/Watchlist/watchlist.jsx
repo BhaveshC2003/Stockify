@@ -47,7 +47,3 @@ const Watchlist = () => {
 
 export default Watchlist
 
-
-/* <TableContainer component={Paper} sx={{backgroundColor:"lightblue"}} >
-            <DataTable headings={['Company','Stock Price','Percentage return','P/E ratio',]} data={[['Apple','300','4.3','0.7'],['Microsoft','200','5.6','0.4'],['Google','534','3.2','0.5']]} />
-</TableContainer> */
