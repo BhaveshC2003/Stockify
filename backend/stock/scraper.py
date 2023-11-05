@@ -19,8 +19,13 @@ def remove_wikipedia(text):
   text = re.sub(r"\bWikipedia\b", "", text)
   return text
 
+
+#ticker = input("Enter a Stock Ticker: ")
+#exchange = input("Enter the Stock Exchange for that stock: ")
+
 ticker = input("Enter a Stock Ticker: ")
 exchange = input("Enter the Stock Exchange for that stock: ")
+
 
 def get_data(ticker, exchange):
 	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36'}
@@ -40,15 +45,35 @@ def scrap(soup):
 	scraped_data["percent_change"] = soup.find('div', {'class': 'JwB6zf'}).text
 	scraped_data["info"] = clean_text(soup.find("div", {'class': "bLLb2d"}).text)
 	scraped_data["stats"] = {}
+
+	stats_key = soup.findAll("div", {"class" : "mfs7Fc"})
+	stats_value = soup.findAll("div", {"class" : "P6K39c"})
+	for i in range(0, len(stats_key)):
+		scraped_data["stats"].__setitem__(stats_key[i].text, stats_value[i].text)
+
+	stats_key1 = soup.findAll("div", {"class" : "rsPbEe"})
+	stats_value1 = soup.findAll("td", {"class" : "QXDnM"})
+	for i in range(0, len(stats_key1)):
+		if(i == 4):
+			scraped_data["stats"]["EPS"] =  stats_value1[4].text 
+	
+
 	stats_key = soup.findAll("div", {"class":"mfs7Fc"})
 	stats_value = soup.findAll("div", {"class":"P6K39c"})
 	for i in range(0, len(stats_key)):
 		scraped_data["stats"].__setitem__(stats_key[i].text, stats_value[i].text)
+
 	return scraped_data
     
 
+
+
+# data = get_data(ticker, exchange)
+# soup = BeautifulSoup(data.text, 'html.parser')
+# scraped_data = scrap(soup)
 
 data = get_data(ticker, exchange)
 soup = BeautifulSoup(data.text, 'html.parser')
 scraped_data = scrap(soup)
 print(scraped_data)
+
