@@ -23,10 +23,11 @@ admin.site.site_header = "Stockify Admin"
 admin.site.site_title = "Stockify Admin Portal"
 admin.site.index_title = "Welcome to Stockify's Portal"
 
-admin.site.register(AppUser)
-admin.site.register(Watchlist)
+# admin.site.register(AppUser)
+# admin.site.register(Watchlist)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/',include('users.urls')),
+    path('stocks/', include('stock.urls'))
 ]

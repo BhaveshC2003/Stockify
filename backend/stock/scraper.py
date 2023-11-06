@@ -23,9 +23,6 @@ def remove_wikipedia(text):
 #ticker = input("Enter a Stock Ticker: ")
 #exchange = input("Enter the Stock Exchange for that stock: ")
 
-ticker = input("Enter a Stock Ticker: ")
-exchange = input("Enter the Stock Exchange for that stock: ")
-
 
 def get_data(ticker, exchange):
 	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36'}
@@ -70,10 +67,5 @@ def scrap(soup):
 
 # data = get_data(ticker, exchange)
 # soup = BeautifulSoup(data.text, 'html.parser')
-# scraped_data = scrap(soup)
-
-data = get_data(ticker, exchange)
-soup = BeautifulSoup(data.text, 'html.parser')
-scraped_data = scrap(soup)
-print(scraped_data)
+# scraped_data = scrap(soup))
 

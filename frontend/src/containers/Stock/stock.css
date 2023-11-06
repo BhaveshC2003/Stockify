@@ -43,13 +43,14 @@
     display: flex;
     margin-top: 8px;
     font-size: 1.6vmax;
-    width: 50%;
+    width: 60%;
     justify-content: space-between;
 }
 
 .stockify__stock-name > div > div > span{
     display: flex;
     align-items: center;
+    margin-left: 10px;
 }
 
 .stockify__stock-graph{

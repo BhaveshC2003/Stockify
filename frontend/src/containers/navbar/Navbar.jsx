@@ -15,7 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import {Link} from "react-router-dom"
 import { UserContext } from '../../context/userContext';
 
-const pages = ["market trends","compare","predictions","news","watchlist"];
+const pages = ["compare","predictions","news","watchlist"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar() {

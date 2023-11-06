@@ -1,13 +1,17 @@
 import {useState,useEffect} from 'react'
 import "./stock.css"
 import Backgroundimg from '../../components/BackgroundImg/Backgroundimg'
-import {BsFillArrowUpSquareFill} from "react-icons/bs"
+import {BsFillArrowUpSquareFill,BsFillArrowDownSquareFill} from "react-icons/bs"
 import LineChart from '../../components/LineChart/LineChart'
 import CustomAccordion from '../../components/Accordion/Accordion'
 import Button from '@mui/material/Button';
 import {GS,IBM} from "../../components/LineGraph/sample"
+import { useParams } from 'react-router-dom'
+import axios from 'axios'
 
 const Stock = () => {
+    const {ticker} = useParams()
+    const [stock,setStock] = useState(null)
     const [series,setSeries] = useState([10,20,30,40,50])
     const [dates,setDates] = useState([1,2,3,4,5])
     const days = ["Mon","Tues","Wed","Thus","Fri","Sat"]
@@ -25,23 +29,42 @@ const Stock = () => {
             setSeries(x)
             setDates(y)
     },[])
+
+    useEffect(()=>{
+        axios.get(`http://127.0.0.1:8000/stocks/search?ticker=${ticker}`)
+        .then(({data})=>{
+            console.log(data)
+            setStock(data.data)
+        })
+        .catch(err=>console.error(err))
+    },[ticker])
   return (
       <>
           <Backgroundimg />
-          <div className="stockify__stock margin__top">
+          {
+            stock && 
+            <div className="stockify__stock margin__top">
               <div className="stockify__stock-container">
                   <div className="stockify__stock-left">
                       <div className="stockify__stock-name">
                           <div>
-                              <p>Reliance Industries Ltd</p>
+                              <p>{stock.name}</p>
                               <div>
-                                  <p>$300</p>
+                                  <p>{stock.price}</p>
                                   <span>
-                                      <BsFillArrowUpSquareFill
-                                          color="green"
+                                      {
+                                        stock.percent_change.includes("+") ? 
+                                        <BsFillArrowUpSquareFill
+                                        color="green"
+                                        style={{ marginRight: "10px" }}
+                                    />
+                                    :
+                                    <BsFillArrowDownSquareFill
+                                          color="red"
                                           style={{ marginRight: "10px" }}
                                       />
-                                      0.18%
+                                      }
+                                      {stock.percent_change}
                                   </span>
                               </div>
                           </div>
@@ -77,17 +100,17 @@ const Stock = () => {
                           expanded={true}
                           label={"Statistics"}
                           data={{
-                              "Previous Close": "$320",
-                              "Day Range": "$450-$500",
-                              "Market Cap": "25.63$",
-                              "P/E Ratio": "25.2",
-                              "Dividend Yeild": "0.37%",
+                              "Previous Close": stock.stats["Previous close"],
+                              "Day Range": stock.stats["Day range"],
+                              "Market Cap": stock.stats["Market cap"],
+                              "P/E Ratio": stock.stats["P/E ratio"],
+                              "Dividend Yeild": stock.stats["Dividend yield"],
                           }}
                       />
                       <CustomAccordion
                           label={"Company Details"}
                           data={{
-                              About: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit tempore velit asperiores tempora modi dolor perspiciatis voluptatum. Nisi in totam inventore non nostrum accusantium mollitia, illum quae enim officia doloribus.",
+                              About: stock.info,
                           }}
 
                       />
@@ -117,6 +140,7 @@ const Stock = () => {
                   </div>
               </div>
           </div>
+          }
       </>
   );
 }

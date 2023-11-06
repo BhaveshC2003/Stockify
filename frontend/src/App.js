@@ -22,6 +22,7 @@ function App() {
 		console.log(data)
 		setUser(data.user)
 	})
+  .catch(err=>console.error(err))
   },[])
   useEffect(()=>{
 	loadUser()
@@ -36,7 +37,7 @@ function App() {
           <Route exact path='/predictions' element={<Prediction />}/>
           <Route exact path='/news' element={<News />}/>
           <Route exact path='/watchlist' element={<Watchlist />}/>
-          <Route exact path="/stock" element={<Stock />}/>
+          <Route exact path="/stocks/:ticker" element={<Stock />}/>
           <Route exact path='/compare' element={<Compare />} />
       	</Routes>
       	<Footer />
