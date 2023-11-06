@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import './watchlist.css'
 import Backgroundimg from '../../components/BackgroundImg/Backgroundimg'
 import WatchlistCard from '../../components/WatchlistCard/WatchlistCard'
@@ -7,16 +7,42 @@ import axios from "axios"
 
 const Watchlist = () => {
 	const [sheetId,setSheetId] = useState("")
-	const stocks = [
-		{date:new Date(Date.now()),name:"APPL",open:250,close:300,return:1.8,pe:0.5},
-		{date:new Date(Date.now()),name:"IRCTC",open:200,close:270,return:1.2,pe:0.6},
-		{date:new Date(Date.now()),name:"INFOSYS",open:350,close:500,return:1.1,pe:0.75}
-	]
+	const [stocks,setStocks] = useState([])
 	const handleSubmit = (e)=>{
-		axios.post("http://localhost:8000/users/sheet",{stocks,sheetId})
+		const data = stocks.map(stock=>{
+			return(
+				{
+					date : new Date(Date.now()),
+					name: stock.name,
+					price: stock.price,
+					percent_change: stock.percent_change,
+					market_cap:stock.stats["Market cap"]
+				}
+			)
+		})
+		axios.post("http://localhost:8000/users/sheet",{stocks:data,sheetId})
 		.then(()=>console.log("Updated google sheet"))
 		.catch((err)=>console.log(err))
 	}
+	useEffect(()=>{
+			if(document.cookie && document.cookie !== ""){
+				const csrf_token = document.cookie
+					.split(";")[1]
+					.split("=")[1]
+					.trim();
+				console.log(csrf_token);
+				axios
+					.get("http://localhost:8000/users/watchlist", {
+						headers: { "X-CSRFToken": csrf_token },
+						withCredentials: true,
+					})
+					.then(({ data }) => {
+						console.log(data);
+						setStocks(data.data);
+					})
+					.catch((err) => console.log(err));
+			}
+	},[])
   return (
     <>
       <Backgroundimg />
@@ -36,9 +62,20 @@ const Watchlist = () => {
 			</div>
 		</div>
         <div className='stockify__watchlist-container'>
-          <WatchlistCard stock={{name:"APPL",open:250,close:300,return:1.8,pe:0.5}} />
-          <WatchlistCard stock={{name:"IRCTC",open:200,close:270,return:1.2,pe:0.6}} />
-          <WatchlistCard stock={{name:"INFOSYS",open:350,close:500,return:1.1,pe:0.75}} />
+			{
+				stocks.map(stock=>{
+					return (
+                        <WatchlistCard
+                            stock={{
+                                name: stock.name,
+                                price: stock.price,
+                                percent_change: stock.percent_change,
+								market_cap:stock.stats["Market cap"]
+                            }}
+                        />
+                    );
+				})
+			}
         </div> 
       </div>
     </>

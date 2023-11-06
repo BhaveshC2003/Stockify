@@ -7,10 +7,10 @@ const WatchlistCard = ({stock}) => {
     <div className='stockify__watchlist-card'>
       <p class="watchlist-card-heading">{stock.name}</p>
       <div>
-        <p><b style={{"fontWeight":500}}>OPEN : </b> {stock.open}</p>
-        <p><b style={{"fontWeight":500}}>CLOSE : </b> {stock.close}</p>
-        <p><b style={{"fontWeight":500}}>RETURN : </b> {stock.return}</p>
-        <p><b style={{"fontWeight":500}}>P/E : </b> {stock.pe}</p>
+        <p><b style={{"fontWeight":500}}>PRICE : </b> {stock.price}</p>
+        <p><b style={{"fontWeight":500}}>CHANGE : </b> {stock.percent_change}</p>
+        <p><b style={{"fontWeight":500}}>CAP : </b> {stock.market_cap}</p>
+        {/* <p><b style={{"fontWeight":500}}>P/E : </b> {stock.pe}</p> */}
       </div>
     </div> 
   </>

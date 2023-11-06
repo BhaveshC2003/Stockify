@@ -20,10 +20,6 @@ def remove_wikipedia(text):
   return text
 
 
-#ticker = input("Enter a Stock Ticker: ")
-#exchange = input("Enter the Stock Exchange for that stock: ")
-
-
 def get_data(ticker, exchange):
 	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36'}
 	data = requests.get(BASE_URL+ticker+":"+exchange, headers)

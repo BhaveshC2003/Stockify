@@ -26,7 +26,7 @@ JWT_SECRET = "yoc0Z6XOpOVswacPZg"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
 
 # White listing the localhost:3000 port
 # for React
@@ -112,12 +112,12 @@ AUTH_USER_MODEL = 'users.AppUser'       #Added this
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES' : (
         'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES' : (
-        'rest_framework.authentication.SessionAuthentication',
-    ),
+    )
 }
 
+    # 'DEFAULT_AUTHENTICATION_CLASSES' : (
+    #     'rest_framework.authentication.SessionAuthentication',
+    # ),
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
