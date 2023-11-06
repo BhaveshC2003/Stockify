@@ -8,12 +8,12 @@ import { useNavigate } from 'react-router-dom';
 const Header = () => {
     const [ticker,setTicker] = useState("")
     const navigate = useNavigate()
-    const companies = ["ITC","RELIANCE","HDFCBANK","IRCTC","YESBANK","RUSSELL"]
+    const companies = ["ITC:NSE","RELIANCE:NSE","HDFCBANK:NSE","IRCTC:NSE","YESBANK:NSE","IBM:NYSE"]
     const handleSearch = ()=>{
         navigate(`/stocks/${ticker}`)
     }
-    const handleClick = () => {
-        console.info('You clicked the Chip.');
+    const handleClick = (company) => {
+        navigate(`/stocks/${company}`)
     }
   return (
     <div className='stockify-home__header'>
@@ -38,7 +38,7 @@ const Header = () => {
             <div>
             {
                 companies.map((company,i)=>{
-                    return <Chip key={company} label={company} variant="outlined" onClick={handleClick} sx={{border:"solid 2px white", color:"white"}}/>
+                    return <Chip key={company} label={company.split(':')[0]} variant="outlined" onClick={()=>handleClick(company)} sx={{border:"solid 2px white", color:"white"}}/>
                 })
             }
             </div>
