@@ -8,4 +8,19 @@ export const colors = [
     "	rgba(0, 150, 13, 0.5)",
 ]
 
-export const days = ["Mon", "Tues", "Wed", "Thus", "Fri", "Sat"];
+export const days = ["Mon", "Tues", "Wed", "Thus", "Fri", "Sat"]
+
+export const extractDates = (data=[])=>{
+    const dates = []
+    data.forEach(x=>{
+        const date = new Date(x["date"])
+        dates.push(`${days[date.getDay() - 1]} ${date.getDay()}/${date.getMonth()}`)
+    })
+    return dates.reverse()
+}
+
+export const extractOpen = (data=[])=>{
+    const open = []
+    data.forEach(x=>open.push(x["open"]))
+    return open
+}

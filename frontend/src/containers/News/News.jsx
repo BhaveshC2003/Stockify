@@ -5,6 +5,7 @@ import axios from "axios"
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
+import Loader from '../Loader/Loader';
 
 const News = () => {
   const [news,setNews] = useState(null)
@@ -39,7 +40,9 @@ const News = () => {
         })
   },[value])
   return (
-    <div className='stockify__news margin__top'>
+	news === null ? <Loader />
+	:
+	<div className='stockify__news margin__top'>
       <Box sx={{ width: '100%',display:"flex",justifyContent:"center" }}>
         <Tabs
           value={value}

@@ -1,10 +1,12 @@
-import {React,useState} from 'react'
+import {React,useContext,useState} from 'react'
 import "./login.css"
 import axios from "axios"
 import {useNavigate} from "react-router-dom"
 import Cookie from "js-cookie"
+import { UserContext } from '../../context/userContext'
 
 const Login = () => {
+  const {setUser} = useContext(UserContext)
   const [email,setEmail] = useState("")
   const [password,setPassword] = useState("")
   const navigate = useNavigate()
@@ -17,8 +19,10 @@ const Login = () => {
         { email: email, password: password },
         {headers:{"X-CSRFToken":csrf_token} ,withCredentials: true }
     );
-    if(data.success)
-        navigate("/")   
+    if(data.success){
+      setUser(data.data)
+      navigate("/")  
+    } 
   }
   return (
     <div className='stockify__login'>
@@ -47,17 +51,7 @@ const Login = () => {
         </div>
         <button className="button-submit" onClick={handleLogin}>Sign In</button>
         <p className="p">Don't have an account? <span className="span">Sign Up</span>
-
-        </p><p className="p line">Or With</p>
-
-        <div className="flex-row">
-          <button className="btn google">
-            Google
-          </button>
-          <button className="btn apple">
-            Apple
-          </button>
-        </div>
+        </p>
       </form>
     </div>
   )

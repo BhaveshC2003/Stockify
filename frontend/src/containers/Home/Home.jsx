@@ -10,7 +10,6 @@ const Home = () => {
         <div className='stockify-home margin__top'>
             <Header />
             <WhyStockify />
-            <MarketPreview />
         </div>
     </>
   )

@@ -29,7 +29,7 @@ function App() {
 	loadUser()
   },[loadUser])
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={{user,setUser}}>
 		<Router>
       	<Navbar />
       	<Routes>

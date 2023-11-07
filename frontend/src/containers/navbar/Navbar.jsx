@@ -14,14 +14,26 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import {Link} from "react-router-dom"
 import { UserContext } from '../../context/userContext';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const pages = ["compare","predictions","news","watchlist"];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function Navbar() {
-  const user = useContext(UserContext)
+  const navigate = useNavigate() 	
+  const {user,setUser} = useContext(UserContext)
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  
+  const handleLogout = ()=>{
+	axios.post("http://localhost:8000/users/logout")
+	.then(({data})=>{
+		setUser(null)
+		navigate("/")
+	})
+	.catch(err=>console.log(err))
+  }
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -127,7 +139,7 @@ function Navbar() {
           </Box>
           <Box sx={{ flexGrow: 1, display:"flex",justifyContent:"center" }}>
             {
-              user ? <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}>{user.username}</Button>:
+              user ? <Button onClick={handleLogout} sx={{ my: 2, color: 'white',margin:"0 8px"}}>{user.username}</Button>:
               <>
                 <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}><Link to={"/login"}>Sign In</Link></Button>
                 <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}><Link to={"/register"}>Register</Link></Button>

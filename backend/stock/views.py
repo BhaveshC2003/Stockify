@@ -30,6 +30,6 @@ class StockCompare(APIView):
                 "symbols":ticker2,
                 "date_from":"2023-10"
             }).json()
-            return Response({"success":True,"data":[ticker1_data,ticker2_data]})
+            return Response({"success":True,"data":[ticker1_data["data"],ticker2_data["data"]]})
         except:
             return Response({"success":False,"message":"Internal server error"})

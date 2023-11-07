@@ -1,38 +1,42 @@
-import { useEffect, useState,useRef } from "react";
+import { useState,useRef } from "react";
 import "./compare.css";
 import Backgroundimg from "../../components/BackgroundImg/Backgroundimg";
 import { BsFillArrowUpSquareFill } from "react-icons/bs";
 import LineChart from "../../components/LineChart/LineChart";
 import CustomAccordion from "../../components/Accordion/Accordion";
-import { GS, IBM } from "../../components/LineGraph/sample";
 import {AiOutlineSearch} from "react-icons/ai"
-import {colors,days} from "./util"
+import {colors,extractDates, extractOpen} from "./util"
+import axios from "axios";
+import Loader from "../Loader/Loader"
 
 const Compare = () => {
     const inputRef = useRef(null)
-    const [series, setSeries] = useState([10, 20, 30, 40, 50]);
-    const [dates, setDates] = useState([1, 2, 3, 4, 5]);
-    const handleCompare = ()=>{
+    const [series, setSeries] = useState(null)
+    const [dates, setDates] = useState(null)
+    const [info,setInfo] = useState([])
+    const [loading,setIsLoading] = useState(false)
+    const handleCompare = async()=>{
         const [ticker1,ticker2] = inputRef.current.value.split(",")
-        console.log(ticker1, ticker2)
-    }
-    useEffect(() => {
-        const x = [];
-        const y = [];
-        for (let time in GS["Time Series (Daily)"]) {
-            x.push(Number(GS["Time Series (Daily)"][time]["1. open"]));
-            const date = new Date(time);
-            y.push(
-                `${days[date.getDay() - 1]} ${date.getDay()}/${date.getMonth()}`
-            );
+        try{
+            setIsLoading(true)
+            const {data:timeSeries} = await axios.get(`http://localhost:8000/stocks/compare?ticker1=${ticker1}&ticker2=${ticker2}`)
+            setDates(extractDates(timeSeries.data[0]))
+            setSeries([extractOpen(timeSeries.data[0]),extractOpen(timeSeries.data[1])])
+            const {data:stat1} = await axios.get(`http://localhost:8000/stocks/search?ticker=${ticker1}`)
+            const {data:stat2} = await axios.get(`http://localhost:8000/stocks/search?ticker=${ticker2}`)
+            setInfo([stat1.data,stat2.data])
+            setIsLoading(false)
+            console.log("data fetched")
+        }catch(err){
+            console.log(err)
+            setIsLoading(false)
         }
-        x.reverse();
-        y.reverse();
-        setSeries(x);
-        setDates(y);
-    }, []);
+    }
     return (
         <>
+            {
+             loading ? <Loader /> :
+            <>
             <Backgroundimg />
             <div className="stockify__compare margin__top">
                 <div class="stockify__compare-search">
@@ -49,32 +53,34 @@ const Compare = () => {
                         <AiOutlineSearch onClick={handleCompare} size={26} />
                     </button>
                 </div>
-                <div className="stockify__compare-container">
+                {
+                    dates === null ? null :
+                    <div className="stockify__compare-container">
                     <div className="stockify__compare-left">
                         <div className="stockify__compare-name">
                             <div>
-                                <p>Reliance Industries Ltd</p>
+                                <p>{info[0].name}</p>
                                 <div>
-                                    <p>$300</p>
+                                    <p>{info[0].price}</p>
                                     <span>
                                         <BsFillArrowUpSquareFill
                                             color="green"
                                             style={{ marginRight: "10px" }}
                                         />
-                                        0.18%
+                                        {info[0].percent_change}
                                     </span>
                                 </div>
                             </div>
                             <div>
-                                <p>INFOSYS</p>
+                                <p>{info[1].name}</p>
                                 <div>
-                                    <p>$450</p>
+                                    <p>{info[1].price}</p>
                                     <span>
                                         <BsFillArrowUpSquareFill
                                             color="green"
                                             style={{ marginRight: "10px" }}
                                         />
-                                        0.12%
+                                        {info[1].percent_change}
                                     </span>
                                 </div>
                             </div>
@@ -82,7 +88,7 @@ const Compare = () => {
                         <div className="stockify__compare-graph">
                             <LineChart
                                 x={dates}
-                                y={series}
+                                y={series[0]}
                                 color={
                                     colors[
                                         Math.floor(
@@ -94,7 +100,7 @@ const Compare = () => {
                             />
                             <LineChart
                                 x={dates}
-                                y={series}
+                                y={series[1]}
                                 color={
                                     colors[
                                         Math.floor(
@@ -111,27 +117,30 @@ const Compare = () => {
                             expanded={true}
                             label={"Statistics"}
                             data={{
-                                "Previous Close": "$320",
-                                "Day Range": "$450-$500",
-                                "Market Cap": "25.63$",
-                                "P/E Ratio": "25.2",
-                                "Dividend Yeild": "0.37%",
+                                "Previous Close": info[0].stats["Previous Close"],
+                                "Day Range": info[0].stats["Day range"],
+                                "Market Cap": info[0].stats["Market cap"],
+                                "P/E Ratio": info[0].stats["P/E ratio"],
+                                "Dividend Yeild": info[0].stats["Dividend yield"],
                             }}
                         />
                         <CustomAccordion
                             expanded={true}
                             label={"Statistics"}
                             data={{
-                                "Previous Close": "$320",
-                                "Day Range": "$450-$500",
-                                "Market Cap": "25.63$",
-                                "P/E Ratio": "25.2",
-                                "Dividend Yeild": "0.37%",
+                                "Previous Close": info[1].stats["Previous Close"],
+                                "Day Range": info[1].stats["Day range"],
+                                "Market Cap": info[1].stats["Market cap"],
+                                "P/E Ratio": info[1].stats["P/E ratio"],
+                                "Dividend Yeild": info[1].stats["Dividend yield"],
                             }}
                         />
                     </div>
                 </div>
+                }
             </div>
+            </>
+            }
         </>
     );
 };
