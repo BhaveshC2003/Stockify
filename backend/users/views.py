@@ -20,6 +20,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from bs4 import BeautifulSoup
 from stock.scraper import get_data, scrap
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 
@@ -27,16 +28,20 @@ from stock.scraper import get_data, scrap
 class UserRegister(APIView):
     permission_classes = (permissions.AllowAny,)         #Allow anyone to register
     
-    #authenticators = [MyAuthenticator()]
-    
     def post(self,request):
-        clean_data = custom_validation(request.data)
-        serializer = UserRegisterSerializer(data=clean_data)
-        if serializer.is_valid(raise_exception=True):
-            user = serializer.create(clean_data)
-            if user:
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            clean_data = custom_validation(request.data)
+            serializer = UserRegisterSerializer(data=clean_data)
+            if serializer.is_valid(raise_exception=True):
+                user = serializer.create(clean_data)
+                if user:
+                    user_id = AppUser.objects.get(email=user.email).user_id
+                    token = generate_token.generate_token({"user_id": user_id})
+                    response = Response(serializer.data, status=status.HTTP_201_CREATED)
+                    response.set_cookie("access_token", token)
+                    return response
+        except:
+            return Response({"success":False, "message":"User already exist"},status.HTTP_400_BAD_REQUEST)
 
     def get(self, request):
         data = requests.get("http://localhost:8081/customers").json()
@@ -53,21 +58,20 @@ class UserRegister(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
 class UserLogin(APIView):
     permission_classes = (permissions.AllowAny,)
-    authentication_classes = (SessionAuthentication,)
 
     #To load user details if logged in
     def get(self, request):
-        token = request.COOKIES.get("access_token")
-        if not token:
+        try:
+            token = request.COOKIES["access_token"]
+            decoded_data = jwt.decode(token, settings.JWT_SECRET, algorithms=["HS256"])
+            user = AppUser.objects.get(user_id=decoded_data["user_id"])
+            serialized_user = UserSerializer(user)
+            return Response({"success":True, "user":serialized_user.data})
+        except:
             return Response({"success":False, "message":"Not Logged In!"})
-        decoded_data = jwt.decode(token, settings.JWT_SECRET, algorithms=["HS256"])
-        user = AppUser.objects.get(user_id=decoded_data["user_id"])
-        serialized_user = UserSerializer(user)
-        return Response({"success":True, "user":serialized_user.data})
-
+    
     def post(self,request):
         data = request.data
         assert validate_email(data)
@@ -86,8 +90,7 @@ class UserLogin(APIView):
 class UserLogout(APIView):
     # permission_classes = (permissions.AllowAny,)        
     # authentication_classes = ()
-    permission_classes = (permissions.IsAuthenticated,) 
-    authentication_classes = (SessionAuthentication,)                         
+    permission_classes = (permissions.IsAuthenticated,)                  
     def post(self,request):
         response = Response(status=status.HTTP_200_OK)
         response.delete_cookie("access_token")
@@ -105,17 +108,18 @@ class UserView(APIView):
     
 #Users watchlist
 class WatchlistView(APIView):
-    permission_classes = (permissions.IsAuthenticated,) 
+    permission_classes = (permissions.AllowAny,) 
     def post(self, request):
-        data = request.data
-        token = request.COOKIES.get("access_token")
-        if not token:
+        try:
+            data = request.data
+            token = request.COOKIES["access_token"]
+            decoded_data = jwt.decode(token, settings.JWT_SECRET, algorithms=["HS256"])
+            user = AppUser.objects.get(user_id=decoded_data["user_id"])
+            serializer = WatchlistSerializer(data={"user":user, "ticker": data["ticker"]})
+            serializer.create(data={"user":user, "ticker": data["ticker"]})
+            return Response({"success": True, "message":"Stock added to watchlist"}, status=status.HTTP_201_CREATED)
+        except:
             return Response({"success": False, "message": "Please login"}, status=status.HTTP_401_UNAUTHORIZED)
-        decoded_data = jwt.decode(token, settings.JWT_SECRET, algorithms=["HS256"])
-        user = AppUser.objects.get(user_id=decoded_data["user_id"])
-        serializer = WatchlistSerializer(data={"user":user, "ticker": data["ticker"]})
-        serializer.create(data={"user":user, "ticker": data["ticker"]})
-        return Response({"success": True}, status=status.HTTP_201_CREATED)
     
     def delete(self, request):
         ticker = request.GET.get("ticker")
@@ -125,17 +129,20 @@ class WatchlistView(APIView):
         return Response({"success":True, "message": f"Deleted {ticker}"})
     
     def get(self, request):
-        token = request.COOKIES["access_token"]
-        decoded_data = jwt.decode(token, settings.JWT_SECRET, algorithms=["HS256"])
-        queryset = Watchlist.objects.filter(user=decoded_data["user_id"])
-        data = WatchlistSerializer(queryset, many=True).data
-        scraped_data = []
-        for fav in data:
-            ticker, exchange = fav["ticker"].split(":")
-            search_details = get_data(ticker=ticker,exchange=exchange)
-            soup = BeautifulSoup(search_details.text, 'html.parser')
-            scraped_data.append(scrap(soup))
-        return Response({"success":True, "data":scraped_data})
+       try:
+            token = request.COOKIES["access_token"]
+            decoded_data = jwt.decode(token, settings.JWT_SECRET, algorithms=["HS256"])
+            queryset = Watchlist.objects.filter(user=decoded_data["user_id"])
+            data = WatchlistSerializer(queryset, many=True).data
+            scraped_data = []
+            for fav in data:
+                ticker, exchange = fav["ticker"].split(":")
+                search_details = get_data(ticker=ticker,exchange=exchange)
+                soup = BeautifulSoup(search_details.text, 'html.parser')
+                scraped_data.append(scrap(soup))
+            return Response({"success":True, "data":scraped_data})
+       except:
+            return Response({"success": False, "message": "Please login"}, status=status.HTTP_401_UNAUTHORIZED)
 
 #Getting news
 class NewsView(APIView):

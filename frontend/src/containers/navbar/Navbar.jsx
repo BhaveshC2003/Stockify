@@ -130,7 +130,7 @@ function Navbar() {
               user ? <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}>{user.username}</Button>:
               <>
                 <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}><Link to={"/login"}>Sign In</Link></Button>
-                <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}><Link>Register</Link></Button>
+                <Button sx={{ my: 2, color: 'white',margin:"0 8px"}}><Link to={"/register"}>Register</Link></Button>
               </>
             }
           </Box>

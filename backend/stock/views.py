@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import permissions, status
 from .scraper import scrap,get_data
 from bs4 import BeautifulSoup
+import requests
 
 class StockSearch(APIView):
     permission_classes = (permissions.AllowAny,)  
@@ -14,4 +15,21 @@ class StockSearch(APIView):
         soup = BeautifulSoup(search_details.text, 'html.parser')
         scraped_data = scrap(soup)
         return Response({"success":True,"data":scraped_data})
-
+    
+class StockCompare(APIView):
+    permission_classes = (permissions.AllowAny,)
+    BASE_URL = "https://api.stockdata.org/v1/data/eod?api_token=mEDZcfmpYvknLEtJqMAurQgR5wgD7pylzu6YfJRk"
+    def get(self, request):
+        try:
+            ticker1, ticker2 = request.GET.get("ticker1").split(":")[0], request.GET.get("ticker2").split(":")[0]
+            ticker1_data = requests.get(self.BASE_URL,params={
+                "symbols":ticker1,
+                "date_from":"2023-10"
+            }).json()
+            ticker2_data = requests.get(self.BASE_URL,params={
+                "symbols":ticker2,
+                "date_from":"2023-10"
+            }).json()
+            return Response({"success":True,"data":[ticker1_data,ticker2_data]})
+        except:
+            return Response({"success":False,"message":"Internal server error"})

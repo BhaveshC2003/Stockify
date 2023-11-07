@@ -12,6 +12,7 @@ import Watchlist from './containers/Watchlist/watchlist';
 import {UserContext} from "./context/userContext"
 import Stock from './containers/Stock/Stock';
 import Compare from './containers/Compare/Compare';
+import Register from './containers/Register/Register';
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
       	<Routes>
           <Route exact path='/' element={<Home />} />
           <Route exact path='/login' element={<Login />} />
+          <Route exact path='/register' element={<Register />} />
           <Route exact path='/predictions' element={<Prediction />}/>
           <Route exact path='/news' element={<News />}/>
           <Route exact path='/watchlist' element={<Watchlist />}/>

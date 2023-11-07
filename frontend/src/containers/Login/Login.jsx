@@ -2,6 +2,7 @@ import {React,useState} from 'react'
 import "./login.css"
 import axios from "axios"
 import {useNavigate} from "react-router-dom"
+import Cookie from "js-cookie"
 
 const Login = () => {
   const [email,setEmail] = useState("")
@@ -9,7 +10,13 @@ const Login = () => {
   const navigate = useNavigate()
   const handleLogin = async(e)=>{
     e.preventDefault()
-    const {data} = await axios.post("http://localhost:8000/users/login",{"email":email,"password":password},{withCredentials:true})
+    const csrf_token = Cookie.get("csrftoken")
+		console.log(csrf_token);
+    const { data } = await axios.post(
+        "http://localhost:8000/users/login",
+        { email: email, password: password },
+        {headers:{"X-CSRFToken":csrf_token} ,withCredentials: true }
+    );
     if(data.success)
         navigate("/")   
   }

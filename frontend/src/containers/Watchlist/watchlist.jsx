@@ -4,6 +4,7 @@ import Backgroundimg from '../../components/BackgroundImg/Backgroundimg'
 import WatchlistCard from '../../components/WatchlistCard/WatchlistCard'
 import Button from '@mui/material/Button'
 import axios from "axios"
+import Cookie from "js-cookie"
 
 const Watchlist = () => {
 	const [sheetId,setSheetId] = useState("")
@@ -26,14 +27,8 @@ const Watchlist = () => {
 	}
 	useEffect(()=>{
 			if(document.cookie && document.cookie !== ""){
-				const csrf_token = document.cookie
-					.split(";")[1]
-					.split("=")[1]
-					.trim();
-				console.log(csrf_token);
 				axios
 					.get("http://localhost:8000/users/watchlist", {
-						headers: { "X-CSRFToken": csrf_token },
 						withCredentials: true,
 					})
 					.then(({ data }) => {

@@ -39,12 +39,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:3000',
 ]
 
-#JWT
-REST_FRAMEWORK = {
-  'DEFAULT_AUTHENTICATION_CLASSES': (
-    'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-  ),
-}
+CORS_ORIGIN_WHITELIST = ( 'localhost:3000', )
 
 CORS_ALLOW_CREDENTIALS = True   #Added this
 
@@ -60,6 +55,7 @@ INSTALLED_APPS = [
     'rest_framework',       # Added this
     'corsheaders',          # Added this
     'users.apps.UsersConfig',   #Added this
+    'rest_framework_simplejwt'
 ]
 
 MIDDLEWARE = [
@@ -109,9 +105,13 @@ DATABASES = {
 # User Model
 AUTH_USER_MODEL = 'users.AppUser'       #Added this
 
+#JWT
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES' : (
         'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',   
     )
 }
 

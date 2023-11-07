@@ -16,6 +16,14 @@ const Stock = () => {
     const [dates,setDates] = useState([1,2,3,4,5])
     const days = ["Mon","Tues","Wed","Thus","Fri","Sat"]
     const colors = ["#ff6384", "#5959e6", "#2babab", "#8c4d15", "#8bc34a", "#607d8b", "#009688"]
+    const handleAddWatchlist = ()=>{
+        axios.post("http://localhost:8000/users/watchlist",{ticker},{withCredentials:true})
+        .then(({data})=>{
+            console.log(data)
+        })
+        .catch((err)=>console.log(err))
+    }
+
     useEffect(()=>{
             const x = []
             const y =[]
@@ -87,6 +95,7 @@ const Stock = () => {
                                       },
                                   },
                               ]}
+                              onClick={handleAddWatchlist}
                           >
                               Add To Watchlist
                           </Button>
