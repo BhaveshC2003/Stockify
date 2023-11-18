@@ -5,9 +5,11 @@ import WatchlistCard from '../../components/WatchlistCard/WatchlistCard'
 import Button from '@mui/material/Button'
 import axios from "axios"
 import Cookie from "js-cookie"
+import Loader from '../Loader/Loader'
 
 const Watchlist = () => {
 	const [sheetId,setSheetId] = useState("")
+	const [isLoading,setIsLoading] = useState(false)
 	const [stocks,setStocks] = useState([])
 	const handleSubmit = (e)=>{
 		const data = stocks.map(stock=>{
@@ -27,6 +29,7 @@ const Watchlist = () => {
 	}
 	useEffect(()=>{
 			if(document.cookie && document.cookie !== ""){
+				setIsLoading(true)
 				axios
 					.get("http://localhost:8000/users/watchlist", {
 						withCredentials: true,
@@ -34,14 +37,20 @@ const Watchlist = () => {
 					.then(({ data }) => {
 						console.log(data);
 						setStocks(data.data);
+						setIsLoading(false)
 					})
-					.catch((err) => console.log(err));
+					.catch((err) =>{
+						console.log(err)
+						setIsLoading(false)
+					});
 			}
 	},[])
   return (
     <>
       <Backgroundimg />
-      <div className='stockify__watchlist margin__top'>
+      {
+		isLoading ? <Loader /> :
+		<div className='stockify__watchlist margin__top'>
 	  	<h2>My Watchlist</h2>
 		<div className='stockify__watchlist-sheet margin__top'>
 			<p>Click on <b style={{"fontWeight":500}}>Import</b> to add today's data to your google sheet.</p>
@@ -73,6 +82,7 @@ const Watchlist = () => {
 			}
         </div> 
       </div>
+	  }
     </>
   )
 }

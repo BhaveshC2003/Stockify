@@ -40,7 +40,7 @@ function App() {
           <Route exact path='/news' element={<News />}/>
           <Route exact path='/watchlist' element={<Watchlist />}/>
           <Route exact path="/stocks/:ticker" element={<Stock />}/>
-          <Route exact path='/compare' element={<Compare />} />
+          <Route path='/compare' element={<Compare />} />
       	</Routes>
       	<Footer />
     	</Router>

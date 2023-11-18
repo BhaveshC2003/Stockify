@@ -96,7 +96,7 @@ const Compare = () => {
                                         )
                                     ]
                                 }
-                                label={"RELIANCE"}
+                                label={info[0].name}
                             />
                             <LineChart
                                 x={dates}
@@ -108,7 +108,7 @@ const Compare = () => {
                                         )
                                     ]
                                 }
-                                label={"INFOSYS"}
+                                label={info[1].name}
                             />
                         </div>
                     </div>

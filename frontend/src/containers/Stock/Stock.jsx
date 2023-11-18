@@ -8,9 +8,11 @@ import Button from '@mui/material/Button';
 import {GS,IBM} from "../../components/LineGraph/sample"
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
+import Loader from '../Loader/Loader'
 
 const Stock = () => {
     const {ticker} = useParams()
+    const [isLoading,setIsLoading] = useState(false)
     const [stock,setStock] = useState(null)
     const [series,setSeries] = useState([10,20,30,40,50])
     const [dates,setDates] = useState([1,2,3,4,5])
@@ -39,18 +41,24 @@ const Stock = () => {
     },[])
 
     useEffect(()=>{
+        setIsLoading(true)
         axios.get(`http://127.0.0.1:8000/stocks/search?ticker=${ticker}`)
         .then(({data})=>{
             console.log(data)
             setStock(data.data)
+            setIsLoading(false)
         })
-        .catch(err=>console.error(err))
+        .catch(err=>{
+            console.log(err)
+            setIsLoading(false)
+        })
     },[ticker])
   return (
       <>
           <Backgroundimg />
           {
-            stock && 
+            isLoading === true ? <Loader /> :
+            stock &&
             <div className="stockify__stock margin__top">
               <div className="stockify__stock-container">
                   <div className="stockify__stock-left">
