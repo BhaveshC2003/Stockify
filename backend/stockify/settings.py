@@ -26,7 +26,7 @@ JWT_SECRET = "yoc0Z6XOpOVswacPZg"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = [".vercel.app","127.0.0.1", "localhost"]
 
 # White listing the localhost:3000 port
 # for React
@@ -96,8 +96,12 @@ WSGI_APPLICATION = 'stockify.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        "NAME":"railway",
+        "USER":"postgres",
+        "PASSWORD":"-g*dcdb*-AGeAEGa1bdAgEC55a*1DGcd",
+        "HOST":"monorail.proxy.rlwy.net",
+        "PORT":"48318"
     }
 }
 
