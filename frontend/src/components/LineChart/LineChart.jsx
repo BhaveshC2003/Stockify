@@ -1,7 +1,6 @@
 import {useState,useEffect} from 'react'
 import "./linechart.css"
 import {Line} from "react-chartjs-2"
-import {data} from "../LineGraph/sample"
 import { Chart, registerables } from 'chart.js';
 
 const LineChart = ({x,y,color,label}) => {

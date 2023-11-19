@@ -5,10 +5,10 @@ import {BsFillArrowUpSquareFill,BsFillArrowDownSquareFill} from "react-icons/bs"
 import LineChart from '../../components/LineChart/LineChart'
 import CustomAccordion from '../../components/Accordion/Accordion'
 import Button from '@mui/material/Button';
-import {GS,IBM} from "../../components/LineGraph/sample"
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
 import Loader from '../Loader/Loader'
+import { extractDates,extractOpen } from './util'
 
 const Stock = () => {
     const {ticker} = useParams()
@@ -27,25 +27,14 @@ const Stock = () => {
     }
 
     useEffect(()=>{
-            const x = []
-            const y =[]
-            for(let time in GS["Time Series (Daily)"]){
-                x.push(Number(GS["Time Series (Daily)"][time]["1. open"]))
-                const date = new Date(time)
-                y.push(`${days[date.getDay()-1]} ${date.getDay()}/${date.getMonth()}`)
-            }
-            x.reverse()
-            y.reverse()
-            setSeries(x)
-            setDates(y)
-    },[])
-
-    useEffect(()=>{
         setIsLoading(true)
         axios.get(`http://127.0.0.1:8000/stocks/search?ticker=${ticker}`)
         .then(({data})=>{
             console.log(data)
             setStock(data.data)
+            console.log(data.price)
+            setDates(extractDates(data.price))
+            setSeries(extractOpen(data.price))
             setIsLoading(false)
         })
         .catch(err=>{

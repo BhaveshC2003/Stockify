@@ -5,16 +5,22 @@ from rest_framework import permissions, status
 from .scraper import scrap,get_data
 from bs4 import BeautifulSoup
 import requests
+from model import predict
 
 class StockSearch(APIView):
-    permission_classes = (permissions.AllowAny,)  
+    permission_classes = (permissions.AllowAny,)
+    BASE_URL = "https://api.stockdata.org/v1/data/eod?api_token=mEDZcfmpYvknLEtJqMAurQgR5wgD7pylzu6YfJRk"  
     def get(self, request):
         data = request.GET.get('ticker')
         ticker, exchange = data.split(":")
         search_details = get_data(ticker=ticker,exchange=exchange)
         soup = BeautifulSoup(search_details.text, 'html.parser')
         scraped_data = scrap(soup)
-        return Response({"success":True,"data":scraped_data})
+        price = requests.get(self.BASE_URL,params={
+                "symbols":ticker,
+                "date_from":"2023-10"
+            }).json()
+        return Response({"success":True,"data":scraped_data,"price":price["data"]})
     
 class StockCompare(APIView):
     permission_classes = (permissions.AllowAny,)
@@ -33,3 +39,13 @@ class StockCompare(APIView):
             return Response({"success":True,"data":[ticker1_data["data"],ticker2_data["data"]]})
         except:
             return Response({"success":False,"message":"Internal server error"})
+        
+class StockPrediction(APIView):
+    permission_classes = (permissions.AllowAny,)
+    def get(self, request):
+        try:
+            ticker = request.GET.get("ticker")
+            data = predict(ticker=ticker)
+            return Response({"success":True, "data":data})
+        except:
+            return Response({"success":False, "message":"Interal server error"})

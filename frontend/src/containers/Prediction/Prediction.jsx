@@ -2,6 +2,7 @@ import React from 'react'
 import "./prediction.css"
 import { default as AI } from "../../Images/AI.png"
 import Slider from '@mui/material/Slider';
+import LineChart from "../../components/LineChart/LineChart"
 
 function valuetext(value) {
     return `${value}°C`;
@@ -53,6 +54,7 @@ const Prediction = () => {
                     </div>
                 </div>
                 <div className='stockify__prediction-model-graphcontainer'>
+                    <LineChart />
                 </div>
             </div>
         </div>
