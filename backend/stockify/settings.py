@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,14 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-$s7p=0d2zwvkfq4t%%(-qt_n%)5o$d*yc2n05w8(hu&st$+nar'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 JWT_SECRET = "yoc0Z6XOpOVswacPZg"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = [".vercel.app","127.0.0.1", "localhost"]
-
+# ALLOWED_HOSTS = [".vercel.app","127.0.0.1", "localhost"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 # White listing the localhost:3000 port
 # for React
 # CORS_ORIGIN_WHITELIST = (
@@ -99,9 +100,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         "NAME":"railway",
         "USER":"postgres",
-        "PASSWORD":"-g*dcdb*-AGeAEGa1bdAgEC55a*1DGcd",
-        "HOST":"monorail.proxy.rlwy.net",
-        "PORT":"48318"
+        "PASSWORD": os.environ("PASSWORD"),
+        "HOST":os.environ("HOST"),
+        "PORT": os.environ("PORT")
     }
 }
 
