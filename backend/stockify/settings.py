@@ -28,7 +28,7 @@ JWT_SECRET = "yoc0Z6XOpOVswacPZg"
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 # ALLOWED_HOSTS = [".vercel.app","127.0.0.1", "localhost"]
-ALLOWED_HOSTS = ["https://stockify-backend-q52a.onrender.com"]
+ALLOWED_HOSTS = '*'
 # White listing the localhost:3000 port
 # for React
 # CORS_ORIGIN_WHITELIST = (
