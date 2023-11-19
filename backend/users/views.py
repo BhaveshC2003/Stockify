@@ -38,7 +38,7 @@ class UserRegister(APIView):
                     user_id = AppUser.objects.get(email=user.email).user_id
                     token = generate_token.generate_token({"user_id": user_id})
                     response = Response(serializer.data, status=status.HTTP_201_CREATED)
-                    response.set_cookie("access_token", token)
+                    response.set_cookie("access_token", token, same_site=None, secure=False)
                     return response
         except:
             return Response({"success":False, "message":"User already exist"},status.HTTP_400_BAD_REQUEST)
@@ -83,7 +83,7 @@ class UserLogin(APIView):
             user = AppUser.objects.get(email=data["email"])
             token = generate_token.generate_token({"user_id": user.user_id})
             response = Response({"success":True, "data":serializer.data}, status=status.HTTP_200_OK) 
-            response.set_cookie("access_token", token)
+            response.set_cookie("access_token", token, same_site=None, secure=False)
             return response 
 
 

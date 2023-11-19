@@ -54,7 +54,9 @@ const Prediction = () => {
                     </div>
                 </div>
                 <div className='stockify__prediction-model-graphcontainer'>
-                    <LineChart />
+                    <LineChart
+                        
+                    />
                 </div>
             </div>
         </div>

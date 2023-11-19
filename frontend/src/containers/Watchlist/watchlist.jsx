@@ -23,7 +23,7 @@ const Watchlist = () => {
 				}
 			)
 		})
-		axios.post("http://localhost:8000/users/sheet",{stocks:data,sheetId})
+		axios.post("https://stockify-backend-q52a.onrender.com/users/sheet",{stocks:data,sheetId})
 		.then(()=>console.log("Updated google sheet"))
 		.catch((err)=>console.log(err))
 	}
@@ -31,7 +31,7 @@ const Watchlist = () => {
 			if(document.cookie && document.cookie !== ""){
 				setIsLoading(true)
 				axios
-					.get("http://localhost:8000/users/watchlist", {
+					.get("https://stockify-backend-q52a.onrender.com/users/watchlist", {
 						withCredentials: true,
 					})
 					.then(({ data }) => {

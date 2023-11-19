@@ -15,7 +15,7 @@ const Login = () => {
     const csrf_token = Cookie.get("csrftoken")
 		console.log(csrf_token);
     const { data } = await axios.post(
-        "http://localhost:8000/users/login",
+        "https://stockify-backend-q52a.onrender.com/users/login",
         { email: email, password: password },
         {headers:{"X-CSRFToken":csrf_token} ,withCredentials: true }
     );

@@ -19,7 +19,7 @@ const Stock = () => {
     const days = ["Mon","Tues","Wed","Thus","Fri","Sat"]
     const colors = ["#ff6384", "#5959e6", "#2babab", "#8c4d15", "#8bc34a", "#607d8b", "#009688"]
     const handleAddWatchlist = ()=>{
-        axios.post("http://localhost:8000/users/watchlist",{ticker},{withCredentials:true})
+        axios.post("https://stockify-backend-q52a.onrender.com/users/watchlist",{ticker},{withCredentials:true})
         .then(({data})=>{
             console.log(data)
         })
@@ -28,7 +28,7 @@ const Stock = () => {
 
     useEffect(()=>{
         setIsLoading(true)
-        axios.get(`http://127.0.0.1:8000/stocks/search?ticker=${ticker}`)
+        axios.get(`https://stockify-backend-q52a.onrender.com/stocks/search?ticker=${ticker}`)
         .then(({data})=>{
             console.log(data)
             setStock(data.data)

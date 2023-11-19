@@ -18,7 +18,7 @@ import Register from './containers/Register/Register';
 function App() {
   const [user,setUser] = useState()
   const loadUser = useCallback(()=>{
-	axios.get("http://localhost:8000/users/login",{withCredentials:true})
+	axios.get("https://stockify-backend-q52a.onrender.com/users/login",{withCredentials:true})
 	.then(({data})=>{
 		console.log(data)
 		setUser(data.user)
