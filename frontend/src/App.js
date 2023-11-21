@@ -36,7 +36,7 @@ function App() {
           <Route exact path='/' element={<Home />} />
           <Route exact path='/login' element={<Login />} />
           <Route exact path='/register' element={<Register />} />
-          <Route exact path='/predictions' element={<Prediction />}/>
+          <Route exact path='/prediction/:ticker' element={<Prediction />}/>
           <Route exact path='/news' element={<News />}/>
           <Route exact path='/watchlist' element={<Watchlist />}/>
           <Route exact path="/stocks/:ticker" element={<Stock />}/>

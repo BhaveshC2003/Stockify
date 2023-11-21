@@ -172,6 +172,7 @@ class GoogleSheet(APIView):
         stocks = [list(stock.values()) for stock in stocks]
         CURR_DIR = os.path.dirname(os.path.realpath(__file__))
         credential_file=str(CURR_DIR)+'/credentials.json'
+        print(credential_file)
         flow = InstalledAppFlow.from_client_secrets_file(credential_file, SCOPES)
         creds = flow.run_local_server(port=5000)
         try:

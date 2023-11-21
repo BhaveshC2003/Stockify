@@ -5,12 +5,13 @@ import {BsFillArrowUpSquareFill,BsFillArrowDownSquareFill} from "react-icons/bs"
 import LineChart from '../../components/LineChart/LineChart'
 import CustomAccordion from '../../components/Accordion/Accordion'
 import Button from '@mui/material/Button';
-import { useParams } from 'react-router-dom'
+import { useParams,useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import Loader from '../Loader/Loader'
 import { extractDates,extractOpen } from './util'
 
 const Stock = () => {
+    const navigate = useNavigate()
     const {ticker} = useParams()
     const [isLoading,setIsLoading] = useState(false)
     const [stock,setStock] = useState(null)
@@ -18,12 +19,16 @@ const Stock = () => {
     const [dates,setDates] = useState([1,2,3,4,5])
     const days = ["Mon","Tues","Wed","Thus","Fri","Sat"]
     const colors = ["#ff6384", "#5959e6", "#2babab", "#8c4d15", "#8bc34a", "#607d8b", "#009688"]
+
     const handleAddWatchlist = ()=>{
         axios.post("https://stockify-backend-q52a.onrender.com/users/watchlist",{ticker},{withCredentials:true})
         .then(({data})=>{
             console.log(data)
         })
         .catch((err)=>console.log(err))
+    }
+    const handlePredict = async()=>{
+        navigate(`/prediction/${ticker}`)
     }
 
     useEffect(()=>{
@@ -140,6 +145,7 @@ const Stock = () => {
                                       },
                                   },
                               ]}
+                              onClick={handlePredict}
                           >
                               Predict 
                           </Button>

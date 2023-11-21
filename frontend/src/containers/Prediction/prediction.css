@@ -133,3 +133,8 @@
     color: white;
 }
 /*Slider*/
+
+.stockify__prediction-model{
+    width: 80%;
+    margin: auto;
+}

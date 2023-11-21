@@ -3,7 +3,7 @@ import "./linechart.css"
 import {Line} from "react-chartjs-2"
 import { Chart, registerables } from 'chart.js';
 
-const LineChart = ({x,y,color,label}) => {
+const LineChart = ({x,y,color="#8bc34a",label}) => {
     Chart.register(...registerables)
   return (
       <div className="stockify__linechart">
