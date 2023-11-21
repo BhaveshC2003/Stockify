@@ -21,6 +21,7 @@ from googleapiclient.errors import HttpError
 from bs4 import BeautifulSoup
 from stock.scraper import get_data, scrap
 from django.views.decorators.csrf import csrf_exempt
+import json
 
 # Create your views here.
 
@@ -172,7 +173,8 @@ class GoogleSheet(APIView):
         stocks = [list(stock.values()) for stock in stocks]
         CURR_DIR = os.path.dirname(os.path.realpath(__file__))
         credential_file=str(CURR_DIR)+'/credentials.json'
-        print(credential_file)
+        file = open(credential_file)
+        print(json.load(file))
         flow = InstalledAppFlow.from_client_secrets_file(credential_file, SCOPES)
         creds = flow.run_local_server(port=9000)
         try:
