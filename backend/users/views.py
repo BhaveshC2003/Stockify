@@ -83,7 +83,7 @@ class UserLogin(APIView):
             user = AppUser.objects.get(email=data["email"])
             token = generate_token.generate_token({"user_id": user.user_id})
             response = Response({"success":True, "data":serializer.data}, status=status.HTTP_200_OK) 
-            response.set_cookie("access_token", token, samesite=None, secure=False)
+            response.set_cookie("access_token", token, max_age=3600,samesite="None", secure=False)
             return response 
 
 
