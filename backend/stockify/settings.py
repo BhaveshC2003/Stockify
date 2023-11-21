@@ -47,6 +47,13 @@ CORS_ORIGIN_WHITELIST = ( 'localhost:3000', '127.0.0.1:3000', "https://stockify-
 # CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:3000", "http://localhost:3000"]
 # SESSION_COOKIE_SAMESITE = None
 # CSRF_COOKIE_SECURE = True
+# settings.py
+
+CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SAMESITE = None  # Set to 'None' for cross-origin requests
+SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = None  # Set to 'None' for cross-origin requests
+
 
 
 # Application definition
@@ -170,5 +177,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-SESSION_COOKIE_SECURE = False
-SESSION_COOKIE_HTTPONLY = False
+# SESSION_COOKIE_SECURE = False
+# SESSION_COOKIE_HTTPONLY = False
