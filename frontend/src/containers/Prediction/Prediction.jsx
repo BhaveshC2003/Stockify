@@ -17,10 +17,10 @@ const Prediction = () => {
             .then(({data})=>{
                 console.log(data)
                 const arr = []
-                const date = new Date(Date.now())
-                console.log(date)
                 data.data.forEach((pred,i)=>{
-                    arr.push(`${date.getDay()+1}/${date.getMonth()}`)
+                    const date = new Date(Date.now())
+                    date.setDate(date.getDate()+i)
+                    arr.push(date.toLocaleString().split(",")[0])
                 })
                 setDates(arr)
                 setPredictions(data.data)
