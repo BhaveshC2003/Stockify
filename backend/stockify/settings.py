@@ -27,8 +27,8 @@ JWT_SECRET = "yoc0Z6XOpOVswacPZg"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-# ALLOWED_HOSTS = [".vercel.app","127.0.0.1", "localhost"]
-ALLOWED_HOSTS = '*'
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+#ALLOWED_HOSTS = '*'
 # White listing the localhost:3000 port
 # for React
 # CORS_ORIGIN_WHITELIST = (
@@ -38,12 +38,12 @@ ALLOWED_HOSTS = '*'
 
 CORS_ALLOW_CREDENTIALS = True   #Added this
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
-    'http://127.0.0.1:3000',
+    'http://localhost:3001',
+    'http://127.0.0.1:3001',
     "https://stockify-frontend.onrender.com"
 ]
 
-CORS_ORIGIN_WHITELIST = ( 'localhost:3000', '127.0.0.1:3000', "https://stockify-frontend.onrender.com")
+CORS_ORIGIN_WHITELIST = ( 'localhost:3001', '127.0.0.1:3001', "https://stockify-frontend.onrender.com")
 SESSION_COOKIE_SAMESITE = None
 CSRF_COOKIE_SAMESITE = None
 SESSION_COOKIE_SECURE = True
@@ -112,7 +112,7 @@ DATABASES = {
         "NAME":"railway",
         "USER":"postgres",
         "PASSWORD": os.environ.get("PASSWORD"),
-        "HOST":os.environ.get("HOST"),
+        "HOST": os.environ.get("HOST"),
         "PORT": os.environ.get("PORT")
     }
 }
