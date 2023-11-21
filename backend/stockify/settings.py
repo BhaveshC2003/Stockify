@@ -40,10 +40,10 @@ CORS_ALLOW_CREDENTIALS = True   #Added this
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:3000',
+    "https://stockify-frontend.onrender.com"
 ]
-CORS_ALLOW_ALL_ORIGINS = True
 
-CORS_ORIGIN_WHITELIST = ( 'localhost:3000', '127.0.0.1:3000')
+CORS_ORIGIN_WHITELIST = ( 'localhost:3000', '127.0.0.1:3000', "https://stockify-frontend.onrender.com")
 # CSRF_TRUSTED_ORIGINS = ["http://127.0.0.1:3000", "http://localhost:3000"]
 # SESSION_COOKIE_SAMESITE = None
 # CSRF_COOKIE_SECURE = True
