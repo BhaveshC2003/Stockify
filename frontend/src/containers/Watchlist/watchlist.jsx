@@ -28,22 +28,24 @@ const Watchlist = () => {
 		.catch((err)=>console.log(err))
 	}
 	useEffect(()=>{
-			if(document.cookie && document.cookie !== ""){
-				setIsLoading(true)
-				axios
-					.get("https://stockify-backend-q52a.onrender.com/users/watchlist", {
-						withCredentials: true,
-					})
-					.then(({ data }) => {
-						console.log(data);
-						setStocks(data.data);
-						setIsLoading(false)
-					})
-					.catch((err) =>{
-						console.log(err)
-						setIsLoading(false)
-					});
-			}
+				setIsLoading(true);
+                axios
+                    .get(
+                        "https://stockify-backend-q52a.onrender.com/users/watchlist",
+                        {
+                            withCredentials: true,
+                        }
+                    )
+                    .then(({ data }) => {
+                        console.log(data);
+                        setStocks(data.data);
+                        setIsLoading(false);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        setIsLoading(false);
+                    });
+			
 	},[])
   return (
     <>
