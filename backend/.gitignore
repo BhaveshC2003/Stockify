@@ -3,4 +3,5 @@
 # dependencies
 /venv
 /users/credentials.json
+/__pycache__
 
