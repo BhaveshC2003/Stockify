@@ -1,0 +1,14 @@
+FROM  python:3.8.13-bullseye
+
+ENV SECRET_KEY="django-insecure-$s7p=0d2zwvkfq4t%%(-qt_n%)5o$d*yc2n05w8(hu&st$+nar" HOST="monorail.proxy.rlwy.net" PASSWORD="-g*dcdb*-AGeAEGa1bdAgEC55a*1DGcd" PORT=48318 DEBUG="False"
+
+WORKDIR /backend
+
+COPY requirements.txt ./
+
+RUN pip install -r requirements.txt 
+
+# copy from the current directory of the Dockerfile to /api in the image
+COPY . . 
+
+EXPOSE 8000

@@ -13,7 +13,7 @@ const Prediction = () => {
     useEffect(()=>{
         if(predictions.length === 0){
             const date = new Date(Date.now())
-            axios.get(`https://stockify-backend-q52a.onrender.com/stocks/predict?ticker=${ticker.split(":")[0]}`)
+            axios.get(`http://127.0.0.1:8000/stocks/predict?ticker=${ticker.split(":")[0]}`)
             .then(({data})=>{
                 console.log(data)
                 const arr = []

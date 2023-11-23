@@ -21,14 +21,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = "django-insecure-$s7p=0d2zwvkfq4t%%(-qt_n%)5o$d*yc2n05w8(hu&st$+nar"
 JWT_SECRET = "yoc0Z6XOpOVswacPZg"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG = True
 
-#ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
-ALLOWED_HOSTS = '*'
+ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+#ALLOWED_HOSTS = '*'
 # White listing the localhost:3000 port
 # for React
 # CORS_ORIGIN_WHITELIST = (
@@ -38,12 +38,14 @@ ALLOWED_HOSTS = '*'
 
 CORS_ALLOW_CREDENTIALS = True   #Added this
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3001',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    "http://localhost:3001",
     'http://127.0.0.1:3001',
     "https://stockify-frontend.onrender.com"
 ]
 
-CORS_ORIGIN_WHITELIST = ( 'localhost:3001', '127.0.0.1:3001', "https://stockify-frontend.onrender.com")
+CORS_ORIGIN_WHITELIST = ( 'localhost:3000', '127.0.0.1:3000', "http://localhost:3001","'http://127.0.0.1:3001'","https://stockify-frontend.onrender.com")
 SESSION_COOKIE_SAMESITE = None
 CSRF_COOKIE_SAMESITE = None
 SESSION_COOKIE_SECURE = True
@@ -111,9 +113,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         "NAME":"railway",
         "USER":"postgres",
-        "PASSWORD": os.environ.get("PASSWORD"),
-        "HOST": os.environ.get("HOST"),
-        "PORT": os.environ.get("PORT")
+        "PASSWORD": "ENTER YOUR RAILWAY POSTRESQL PASSWORD",
+        "HOST": "ENTER YOUR RAILWAY POSTRESQL HOST",
+        "PORT": "ENTER YOUR RAILWAY POSTRESQL PORT"
     }
 }
 

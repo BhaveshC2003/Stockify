@@ -27,7 +27,7 @@ function Navbar() {
   const [anchorElUser, setAnchorElUser] = useState(null);
   
   const handleLogout = ()=>{
-	axios.post("https://stockify-backend-q52a.onrender.com/users/logout")
+	axios.post("http://127.0.0.1:8000/users/logout")
 	.then(({data})=>{
 		setUser(null)
 		navigate("/")

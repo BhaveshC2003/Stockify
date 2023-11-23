@@ -23,7 +23,7 @@ const Watchlist = () => {
 				}
 			)
 		})
-		axios.post("https://stockify-backend-q52a.onrender.com/users/sheet",{stocks:data,sheetId})
+		axios.post("http://127.0.0.1:8000/users/sheet",{stocks:data,sheetId})
 		.then(()=>console.log("Updated google sheet"))
 		.catch((err)=>console.log(err))
 	}
@@ -31,7 +31,7 @@ const Watchlist = () => {
 				setIsLoading(true);
                 axios
                     .get(
-                        "https://stockify-backend-q52a.onrender.com/users/watchlist",
+                        "http://127.0.0.1:8000/users/watchlist",
                         {
                             withCredentials: true,
                         }

@@ -11,7 +11,7 @@ const Register = () => {
     const handleRegister = async(e)=>{
         e.preventDefault()
         try{
-            const {data} = await axios.post("https://stockify-backend-q52a.onrender.com/users/register", {username,email,password}, {withCredentials:true})
+            const {data} = await axios.post("http://127.0.0.1:8000/users/register", {username,email,password}, {withCredentials:true})
             navigate("/")
         }catch(err){
             console.log(err.response.data.message)
